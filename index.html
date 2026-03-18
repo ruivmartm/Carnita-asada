@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#C1410B">
+  <meta name="description" content="40 recetas completas para tu carnita asada perfecta">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Carnita Asada">
+  <title>Carnita Asada 🔥</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;500;600&display=swap');
+    :root {
+      --orange: #C1410B;
+      --orange-light: #FFF7ED;
+      --orange-border: #FED7AA;
+      --green: #16A34A;
+      --green-light: #DCFCE7;
+      --bg: #ffffff;
+      --bg2: #f8f7f4;
+      --bg3: #f1efe8;
+      --text: #1a1a1a;
+      --text2: #6b7280;
+      --border: rgba(0,0,0,0.12);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1c1c1e;
+        --bg2: #2c2c2e;
+        --bg3: #3a3a3c;
+        --text: #f2f2f7;
+        --text2: #aeaeb2;
+        --border: rgba(255,255,255,0.12);
+        --orange-light: #2d1a0a;
+        --orange-border: #7c3a0e;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Source Sans 3', sans-serif; background: var(--bg3); color: var(--text); min-height: 100vh; }
+
+    /* Header */
+    .header { background: var(--bg); border-bottom: 0.5px solid var(--border); padding: 0 1rem; position: sticky; top: 0; z-index: 100; height: 56px; display: flex; align-items: center; gap: 12px; }
+    .header-back { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--orange); padding: 4px 8px 4px 0; display: none; }
+    .header-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; flex: 1; }
+    .header-sub { font-size: 12px; color: var(--text2); }
+
+    /* Home */
+    .home-hero { text-align: center; padding: 2rem 1rem 1.5rem; background: var(--bg); margin-bottom: 1rem; border-bottom: 0.5px solid var(--border); }
+    .home-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; }
+    .home-sub { font-size: 14px; color: var(--text2); margin-top: 6px; }
+
+    .cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 12px 12px; }
+    .cat-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.5rem 1rem; cursor: pointer; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: transform 0.15s; active: scale(0.97); }
+    .cat-card:active { transform: scale(0.97); }
+    .cat-icon { font-size: 3rem; line-height: 1; }
+    .cat-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; }
+    .cat-count { font-size: 12px; color: var(--text2); }
+    .cat-prog-track { width: 100%; height: 5px; background: var(--bg3); border-radius: 999px; overflow: hidden; }
+    .cat-prog-fill { height: 100%; border-radius: 999px; background: var(--orange); transition: width 0.4s; }
+    .cat-prog-fill.done { background: var(--green); }
+    .cat-prog-label { font-size: 11px; color: var(--text2); min-height: 14px; }
+
+    /* Recipe list */
+    .list-wrap { padding: 12px; }
+    .cat-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 0 12px 12px; scrollbar-width: none; }
+    .cat-tabs::-webkit-scrollbar { display: none; }
+    .cat-tab { flex-shrink: 0; padding: 7px 14px; border-radius: 999px; border: 0.5px solid var(--border); background: var(--bg); color: var(--text2); font-size: 13px; font-family: 'Source Sans 3', sans-serif; cursor: pointer; font-weight: 500; white-space: nowrap; }
+    .cat-tab.active { background: var(--orange); border-color: var(--orange); color: #fff; }
+    .recipe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+    .recipe-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem; cursor: pointer; transition: transform 0.15s; }
+    .recipe-card:active { transform: scale(0.97); }
+    .card-prog-bar { height: 3px; border-radius: 999px; background: var(--bg3); margin-bottom: 8px; overflow: hidden; }
+    .card-prog-fill { height: 100%; border-radius: 999px; background: var(--orange); transition: width 0.3s; }
+    .card-prog-fill.done { background: var(--green); }
+    .card-emoji { font-size: 1.6rem; margin-bottom: 5px; display: block; }
+    .card-title { font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 3px; line-height: 1.3; }
+    .card-desc { font-size: 11px; color: var(--text2); line-height: 1.4; }
+    .card-meta { display: flex; gap: 5px; margin-top: 7px; flex-wrap: wrap; }
+    .badge { font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 999px; }
+    .badge-time { background: #FEF3C7; color: #92400E; }
+    .badge-level { background: #DBEAFE; color: #1E40AF; }
+    .badge-pct { background: #FEE2E2; color: #991B1B; }
+    .badge-pct.done { background: var(--green-light); color: #15803D; }
+
+    /* Detail */
+    .detail-wrap { padding: 12px; }
+    .detail-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+    .detail-hdr { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 0.5px solid var(--border); }
+    .detail-emoji { font-size: 2.5rem; }
+    .detail-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 3px; line-height: 1.2; }
+    .detail-sub { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+    /* Progress */
+    .prog-wrap { margin-bottom: 1rem; }
+    .prog-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+    .prog-lbl { font-size: 13px; color: var(--text2); }
+    .prog-pct { font-size: 15px; font-weight: 500; color: var(--orange); }
+    .prog-pct.done { color: var(--green); }
+    .prog-track { height: 8px; background: var(--bg3); border-radius: 999px; overflow: hidden; }
+    .prog-bar { height: 100%; border-radius: 999px; background: var(--orange); transition: width 0.4s; }
+    .prog-bar.done { background: var(--green); }
+    .reset-btn { font-size: 12px; color: var(--text2); background: none; border: 0.5px solid var(--border); border-radius: 999px; cursor: pointer; font-family: 'Source Sans 3', sans-serif; padding: 3px 10px; }
+
+    /* Two col */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 1rem; }
+    @media (max-width: 480px) { .two-col { grid-template-columns: 1fr; } }
+    .section-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--orange); margin-bottom: 8px; }
+    .ingr-list { list-style: none; }
+    .ingr-list li { font-size: 13px; padding: 4px 0; border-bottom: 0.5px solid var(--border); display: flex; gap: 8px; }
+    .ingr-list li:last-child { border-bottom: none; }
+    .ingr-qty { font-weight: 500; min-width: 70px; color: var(--text2); font-size: 12px; }
+    .steps-list { list-style: none; }
+    .step-item { display: flex; gap: 10px; align-items: flex-start; padding: 7px 4px; border-bottom: 0.5px solid var(--border); cursor: pointer; border-radius: 6px; }
+    .step-item:last-child { border-bottom: none; }
+    .step-item:active { background: var(--bg2); }
+    .step-chk { width: 22px; height: 22px; min-width: 22px; border-radius: 50%; border: 2px solid var(--orange); display: flex; align-items: center; justify-content: center; margin-top: 1px; transition: all 0.2s; background: transparent; }
+    .step-chk.checked { background: var(--orange); border-color: var(--orange); }
+    .step-chk.checked svg { display: block; }
+    .step-chk svg { display: none; width: 12px; height: 12px; }
+    .step-txt { font-size: 13px; line-height: 1.6; color: var(--text); transition: color 0.2s; flex: 1; }
+    .step-txt.done { color: var(--text2); text-decoration: line-through; }
+    .tip-box { background: var(--orange-light); border: 0.5px solid var(--orange-border); border-radius: var(--radius-sm); padding: 10px 12px; margin-top: 1rem; font-size: 13px; color: #92400E; line-height: 1.6; }
+    .tip-lbl { font-weight: 600; margin-right: 4px; }
+    .complete-pill { display: inline-flex; align-items: center; gap: 4px; background: var(--green-light); color: #15803D; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 999px; margin-left: 6px; }
+  </style>
+</head>
+<body>
+
+<div class="header" id="header">
+  <button class="header-back" id="backBtn" onclick="handleBack()">←</button>
+  <div>
+    <div class="header-title" id="headerTitle">🔥 Carnita Asada</div>
+    <div class="header-sub" id="headerSub">40 recetas para tu asada</div>
+  </div>
+</div>
+
+<div id="main"></div>
+
+<script>
+const categories=[
+  {id:'res',   label:'Res',          icon:'🥩'},
+  {id:'pollo', label:'Pollo',        icon:'🍗'},
+  {id:'cerdo', label:'Cerdo',        icon:'🐷'},
+  {id:'guarni',label:'Guarniciones', icon:'🌽'},
+];
+
+const recipes={
+res:[
+  {id:'r1',emoji:'🥩',title:'Carne asada clásica',desc:'Flank steak marinado con cítricos, ajo y comino al carbón.',time:'40 min + 4h',level:'Medio',servings:'6 personas',
+   ingredientes:[{qty:'1 kg',name:'Falda de res (flank steak)'},{qty:'3',name:'Limones (jugo)'},{qty:'1',name:'Naranja (jugo)'},{qty:'6 dientes',name:'Ajo picado'},{qty:'3 cdas',name:'Aceite vegetal'},{qty:'1 cda',name:'Comino molido'},{qty:'1 cda',name:'Chile en polvo'},{qty:'1 cdita',name:'Orégano seco'},{qty:'Al gusto',name:'Sal y pimienta negra'}],
+   pasos:['Mezcla limón, naranja, ajo, aceite, comino, chile, orégano, sal y pimienta en un tazón.','Coloca la falda en bolsa zip y vierte la marinada. Refrigera mínimo 4 horas.','Saca la carne 30 min antes de asar para que tome temperatura ambiente.','Calienta la parrilla a fuego alto. Limpia y engrasa la rejilla.','Asa la falda 4-5 min por cada lado para término medio.','Deja reposar 6 min antes de cortar en diagonal contra la fibra.'],
+   tip:'Cortar contra la fibra es clave. Las rodajas deben tener ~5 mm de grosor.'},
+  {id:'r2',emoji:'🔪',title:'Arrachera enchilada',desc:'Arrachera en pasta de chile ancho y chipotle, toque ahumado.',time:'35 min + 6h',level:'Medio',servings:'4 personas',
+   ingredientes:[{qty:'800 g',name:'Arrachera (skirt steak)'},{qty:'2',name:'Chiles anchos desvenados'},{qty:'2',name:'Chipotles en adobo'},{qty:'4 dientes',name:'Ajo'},{qty:'½',name:'Cebolla blanca'},{qty:'2 cdas',name:'Vinagre de manzana'},{qty:'1 cda',name:'Worcestershire'},{qty:'1 cdita',name:'Comino'},{qty:'1 cda',name:'Aceite'},{qty:'Al gusto',name:'Sal'}],
+   pasos:['Hidrata los chiles anchos en agua caliente 15 min. Escurre.','Licúa chiles, chipotles, ajo, cebolla, vinagre, Worcestershire, comino, aceite y sal.','Unta la arrachera con la pasta. Refrigera mínimo 6 horas.','Asa a fuego muy alto, 3 min por lado para término medio-rojo.','Reposa 5 min y corta en tiras diagonales.'],
+   tip:'Agrega virutas de mezquite al carbón 10 min antes para más sabor ahumado.'},
+  {id:'r3',emoji:'🌿',title:'Ribeye con mantequilla de hierbas',desc:'Corte ribeye grueso con costra de sal y mantequilla compuesta.',time:'30 min',level:'Medio',servings:'2 personas',
+   ingredientes:[{qty:'2',name:'Ribeye de 3 cm grosor'},{qty:'4 cdas',name:'Mantequilla sin sal'},{qty:'3 dientes',name:'Ajo machacado'},{qty:'1 cda',name:'Romero picado'},{qty:'1 cda',name:'Tomillo picado'},{qty:'1 cdita',name:'Perejil picado'},{qty:'Sal gruesa',name:'Sal de mar'},{qty:'Al gusto',name:'Pimienta negra gruesa'}],
+   pasos:['Saca los ribeyes del refrigerador 45 min antes. Seca con papel absorbente.','Prepara la mantequilla mezclando con ajo, romero, tomillo y perejil. Refrigera.','Sazona generosamente con sal gruesa y pimienta por ambos lados.','Calienta parrilla a fuego máximo. Asa 3 min por lado para término medio.','Coloca un trozo de mantequilla de hierbas encima al retirar. Reposa 5 min.'],
+   tip:'El método reverse sear (horno lento + parrilla final) da el ribeye más perfecto.'},
+  {id:'r4',emoji:'🧄',title:'T-bone al ajillo',desc:'T-bone marinado en aceite de ajo tostado.',time:'45 min + 2h',level:'Medio',servings:'2 personas',
+   ingredientes:[{qty:'2',name:'T-bone de 400 g c/u'},{qty:'8 dientes',name:'Ajo laminado'},{qty:'5 cdas',name:'Aceite de oliva'},{qty:'1',name:'Limón (jugo y ralladura)'},{qty:'1 cdita',name:'Romero seco'},{qty:'½ cdita',name:'Pimentón ahumado'},{qty:'Al gusto',name:'Sal y pimienta'}],
+   pasos:['Dora el ajo laminado en aceite de oliva a fuego bajo hasta dorado. Enfría.','Mezcla el aceite con ajo, limón, ralladura, romero y pimentón.','Marina el T-bone 2 horas.','Asa a fuego alto 4-5 min por lado.','Reposa 8 min antes de cortar separando el NY strip del filete.'],
+   tip:'El T-bone tiene dos cortes: NY strip más firme y filete más suave.'},
+  {id:'r5',emoji:'🫙',title:'Brisket al carbón',desc:'Brisket lento ahumado con dry rub texano hasta deshebrar.',time:'8-10 h',level:'Avanzado',servings:'10 personas',
+   ingredientes:[{qty:'3 kg',name:'Brisket entero (pecho de res)'},{qty:'3 cdas',name:'Sal gruesa'},{qty:'3 cdas',name:'Pimienta negra gruesa'},{qty:'1 cda',name:'Ajo en polvo'},{qty:'1 cda',name:'Cebolla en polvo'},{qty:'1 cdita',name:'Chile cayena'},{qty:'Virutas',name:'Madera de roble o mezquite'}],
+   pasos:['Aplica el dry rub generosamente la noche anterior. Refrigera sin tapar.','Prepara parrilla para cocción indirecta a 110-120°C.','Coloca el brisket con la grasa hacia arriba. Agrega virutas de madera.','Cocina 6-8 horas hasta 74°C internos.','Envuelve en papel de carnicero y sigue hasta 93-96°C.','Reposa envuelto en hielera al menos 1 hora antes de rebanar.'],
+   tip:'El "stall" a ~74°C es normal. No subas el fuego; sé paciente.'},
+  {id:'r6',emoji:'🌶️',title:'Fajitas de res picosas',desc:'Tiras de sirloin con pimientos y cebolla asados.',time:'25 min + 2h',level:'Fácil',servings:'4 personas',
+   ingredientes:[{qty:'600 g',name:'Sirloin en tiras'},{qty:'2',name:'Pimientos (rojo y verde)'},{qty:'1',name:'Cebolla en gajos'},{qty:'3 dientes',name:'Ajo'},{qty:'2 cdas',name:'Salsa soya'},{qty:'2',name:'Chipotles en adobo'},{qty:'1',name:'Limón'},{qty:'2 cdas',name:'Aceite'},{qty:'1 cdita',name:'Comino'},{qty:'Al gusto',name:'Sal'}],
+   pasos:['Licúa ajo, chipotle, soya, limón, comino y aceite. Marina la res 2 horas.','Calienta fuerte la parrilla o plancha de hierro.','Asa primero los pimientos y cebolla hasta tener marcas. Retira.','Asa las tiras de carne 2 min por lado en tandas.','Junta todo 1 min más. Sirve en tortillas calientes.'],
+   tip:'Nunca amontones la carne en la plancha o se cuece al vapor.'},
+  {id:'r7',emoji:'🍖',title:'Short ribs coreanas (Galbi)',desc:'Costillas de res corte flanken marinadas en soya y pera asiática.',time:'30 min + 4h',level:'Medio',servings:'4 personas',
+   ingredientes:[{qty:'1 kg',name:'Short ribs corte flanken'},{qty:'½ taza',name:'Salsa soya'},{qty:'¼ taza',name:'Azúcar morena'},{qty:'1',name:'Pera asiática rallada'},{qty:'5 dientes',name:'Ajo rallado'},{qty:'1 cda',name:'Jengibre rallado'},{qty:'2 cdas',name:'Aceite de sésamo'},{qty:'3',name:'Cebollín picado'},{qty:'1 cdita',name:'Pimienta negra'}],
+   pasos:['Mezcla soya, azúcar, pera, ajo, jengibre, aceite de sésamo, cebollín y pimienta.','Sumerge las costillas. Refrigera mínimo 4 horas.','Calienta parrilla a fuego alto.','Asa 2-3 min por lado hasta caramelizar.','Sirve con arroz o como taco con kimchi.'],
+   tip:'La pera tiene enzimas que ablandan la carne. Puedes usar kiwi o piña en menor cantidad.'},
+  {id:'r8',emoji:'🔥',title:'Tomahawk showstopper',desc:'El corte más espectacular con reverse sear y costra de especias.',time:'50 min',level:'Avanzado',servings:'3 personas',
+   ingredientes:[{qty:'1',name:'Tomahawk ribeye (~1.2 kg)'},{qty:'2 cdas',name:'Sal de mar gruesa'},{qty:'1 cda',name:'Pimienta negra gruesa'},{qty:'1 cdita',name:'Ajo en polvo'},{qty:'1 cdita',name:'Pimentón ahumado'},{qty:'4 cdas',name:'Mantequilla'},{qty:'4 dientes',name:'Ajo aplastados'},{qty:'2 ramas',name:'Romero fresco'}],
+   pasos:['Saca el tomahawk 1 hora antes. Seca perfectamente.','Cubre con sal, pimienta, ajo en polvo y pimentón.','Asa en zona indirecta (120°C) hasta 52°C internos.','Pasa a fuego directo máximo 1-2 min por lado para costra.','Baña con mantequilla, ajo y romero derretidos los últimos 2 min.','Reposa 10 min antes de cortar.'],
+   tip:'Reverse sear da cocción perfecta de orilla a orilla con costra increíble.'},
+  {id:'r9',emoji:'🌮',title:'Suadero estilo taquería',desc:'Suadero lento en manteca hasta crujiente.',time:'2 h',level:'Medio',servings:'6 personas',
+   ingredientes:[{qty:'800 g',name:'Suadero de res'},{qty:'3 tazas',name:'Manteca de cerdo o aceite'},{qty:'1',name:'Cebolla partida'},{qty:'6 dientes',name:'Ajo'},{qty:'2',name:'Hojas de laurel'},{qty:'1 cdita',name:'Orégano'},{qty:'1 cdita',name:'Comino'},{qty:'Al gusto',name:'Sal'}],
+   pasos:['Coloca el suadero en cazo con manteca, cebolla, ajo, laurel y especias.','Cocina a fuego muy bajo 1.5 horas.','Sube el fuego para dorar y que quede crujiente (10-15 min).','Saca y pica en trozos pequeños.','Sirve en tortillas de maíz con cebolla, cilantro, salsa verde y limón.'],
+   tip:'Cocción lenta en grasa. Jugoso por dentro, crujiente por fuera.'},
+  {id:'r10',emoji:'🫀',title:'Mollejas de res a la parrilla',desc:'Mollejas tiernas con limón, ajo y mantequilla, estilo argentino.',time:'35 min',level:'Medio',servings:'4 personas',
+   ingredientes:[{qty:'600 g',name:'Mollejas de res limpias'},{qty:'3',name:'Limones (jugo)'},{qty:'4 dientes',name:'Ajo picado'},{qty:'3 cdas',name:'Mantequilla'},{qty:'2 cdas',name:'Aceite de oliva'},{qty:'1 cdita',name:'Orégano'},{qty:'Al gusto',name:'Sal y pimienta'}],
+   pasos:['Blanquea las mollejas en agua con sal hirviendo 10 min. Seca.','Marina con limón, ajo, aceite, orégano y pimienta 30 min.','Asa a fuego medio 6-8 min por lado hasta doradas y crujientes.','Los últimos 2 min agrega mantequilla y riega sobre las mollejas.','Sirve con chimichurri y pan.'],
+   tip:'Blanquear primero limpia las mollejas y facilita quitarles la membrana.'},
+],
+pollo:[
+  {id:'p1',emoji:'🍗',title:'Pollo al limón y hierbas',desc:'Muslos y piernas con marinada de limón, ajo y romero.',time:'45 min + 2h',level:'Fácil',servings:'6 personas',
+   ingredientes:[{qty:'1.5 kg',name:'Muslos y piernas de pollo'},{qty:'4',name:'Limones (jugo y ralladura)'},{qty:'5 dientes',name:'Ajo machacado'},{qty:'3 cdas',name:'Aceite de oliva'},{qty:'2 ramas',name:'Romero fresco'},{qty:'1 rama',name:'Tomillo fresco'},{qty:'1 cdita',name:'Pimentón ahumado'},{qty:'Al gusto',name:'Sal y pimienta'}],
+   pasos:['Haz cortes en el pollo para que penetre la marinada.','Mezcla limón, ralladura, ajo, aceite, romero, tomillo, pimentón, sal y pimienta.','Marina mínimo 2 horas.','Parrilla a fuego medio. Coloca el pollo con la piel hacia abajo.','Asa tapado 20 min, voltea y cocina 20 min más.','Verifica temperatura interna de 74°C.'],
+   tip:'El pollo necesita fuego indirecto para cocinarse por dentro sin quemarse.'},
+  {id:'p2',emoji:'🌶️',title:'Alitas BBQ picantes',desc:'Alitas doradas con salsa BBQ de chipotle casera.',time:'50 min',level:'Fácil',servings:'4 personas',
+   ingredientes:[{qty:'1.2 kg',name:'Alitas de pollo'},{qty:'1 taza',name:'Salsa catsup'},{qty:'3 cdas',name:'Miel de abeja'},{qty:'2 cdas',name:'Worcestershire'},{qty:'2 cdas',name:'Vinagre de manzana'},{qty:'2',name:'Chipotles en adobo'},{qty:'2 dientes',name:'Ajo'},{qty:'1 cdita',name:'Mostaza dijon'},{qty:'Al gusto',name:'Sal y pimienta'}],
+   pasos:['Licúa catsup, miel, Worcestershire, vinagre, chipotle, ajo y mostaza.','Separa las alitas. Seca con papel absorbente.','Sazona con sal, pimienta y aceite.','Asa a fuego medio-alto 15 min por lado hasta dorar.','Los últimos 5 min unta BBQ y cierra la parrilla.','Sirve con el resto de la salsa.'],
+   tip:'Secar bien las alitas garantiza piel crujiente.'},
+  {id:'p3',emoji:'🫙',title:'Pechuga adobada',desc:'Pechugas en adobo rojo de guajillo y ancho.',time:'30 min + 3h',level:'Medio',servings:'4 personas',
+   ingredientes:[{qty:'4',name:'Pechugas (mariposa)'},{qty:'3',name:'Chiles guajillo desvenados'},{qty:'2',name:'Chiles ancho desvenados'},{qty:'3 dientes',name:'Ajo'},{qty:'¼',name:'Cebolla'},{qty:'2 cdas',name:'Vinagre blanco'},{qty:'1 cdita',name:'Orégano'},{qty:'½ cdita',name:'Comino'},{qty:'½ cdita',name:'Canela molida'},{qty:'Al gusto',name:'Sal'}],
+   pasos:['Tuesta los chiles en comal seco sin quemar. Remoja 20 min.','Licúa con ajo, cebolla, vinagre, orégano, comino, canela y sal.','Abre las pechugas en mariposa y marina 3 horas.','Asa a fuego medio 6-7 min por lado.','Deja reposar 3 min antes de servir.'],
+   tip:'Tostar los chiles en seco potencia enormemente el sabor del adobo.'},
+  {id:'p4',emoji:'🍋',title:'Pollo entero al beer can',desc:'Pollo vertical sobre lata de cerveza, jugoso y crujiente.',time:'1.5 h',level:'Medio',servings:'4 personas',
+   ingredientes:[{qty:'1',name:'Pollo entero (~1.8 kg)'},{qty:'1 lata',name:'Cerveza (355 ml)'},{qty:'3 cdas',name:'Aceite vegetal'},{qty:'1 cda',name:'Sal'},{qty:'1 cda',name:'Pimentón ahumado'},{qty:'1 cdita',name:'Ajo en polvo'},{qty:'1 cdita',name:'Cebolla en polvo'},{qty:'1 cdita',name:'Pimienta negra'},{qty:'½ cdita',name:'Chile cayena'}],
+   pasos:['Mezcla aceite con especias y sal. Frota todo el pollo por dentro y fuera.','Abre la lata, tira la mitad de la cerveza.','Introduce la lata en la cavidad del pollo.','Prepara parrilla para cocción indirecta a 180°C.','Coloca el pollo vertical. Cocina 1.5 horas tapado.','Listo cuando el muslo llega a 74°C. Retira con cuidado.'],
+   tip:'El vapor de cerveza hidrata la carne desde adentro.'},
+  {id:'p5',emoji:'🌿',title:'Pollo al chipotle con miel',desc:'Glaseado agridulce de chipotle y miel de agave.',time:'40 min + 2h',level:'Fácil',servings:'5 personas',
+   ingredientes:[{qty:'1.2 kg',name:'Piezas de pollo mixtas'},{qty:'3',name:'Chipotles en adobo'},{qty:'3 cdas',name:'Miel de agave'},{qty:'2 cdas',name:'Mantequilla derretida'},{qty:'1 cda',name:'Jugo de naranja'},{qty:'2 dientes',name:'Ajo'},{qty:'1 cdita',name:'Comino'},{qty:'Al gusto',name:'Sal'}],
+   pasos:['Licúa chipotles, miel, mantequilla, naranja, ajo y comino. Sazona.','Marina el pollo 2 horas.','Asa a fuego medio con tapa 15 min por lado.','Los últimos 5 min unta más glaseado sin tapa.','Sirve con gajos de naranja y arroz.'],
+   tip:'El glaseado quema rápido. Solo aplica al final.'},
+  {id:'p6',emoji:'🫚',title:'Pollo al pastor estilo trompo',desc:'Muslos marinados al pastor con achiote y piña.',time:'40 min + 4h',level:'Medio',servings:'6 personas',
+   ingredientes:[{qty:'1 kg',name:'Muslos deshuesados sin piel'},{qty:'3',name:'Chiles guajillo'},{qty:'2',name:'Chiles ancho'},{qty:'1 cdita',name:'Achiote en pasta'},{qty:'¼',name:'Piña en trozos'},{qty:'½',name:'Cebolla'},{qty:'3 dientes',name:'Ajo'},{qty:'2 cdas',name:'Vinagre'},{qty:'1 cdita',name:'Orégano'},{qty:'Al gusto',name:'Sal'}],
+   pasos:['Hidrata chiles 20 min. Licúa con achiote, cebolla, ajo, vinagre, orégano y sal.','Marina los muslos mínimo 4 horas.','Asa a fuego medio-alto 6-7 min por lado.','Asa rodajas de piña hasta dorar.','Pica el pollo y sirve con piña, cebolla y cilantro en tortilla.'],
+   tip:'El achiote da color naranja intenso y sabor terroso. No lo omitas.'},
+  {id:'p7',emoji:'🧅',title:'Pollo con salsa verde asada',desc:'Pollo dorado con salsa verde de tomatillo tatemado.',time:'45 min',level:'Fácil',servings:'4 personas',
+   ingredientes:[{qty:'1 kg',name:'Piernas de pollo'},{qty:'6',name:'Tomatillos'},{qty:'2',name:'Chiles serranos'},{qty:'3 dientes',name:'Ajo'},{qty:'¼',name:'Cebolla'},{qty:'1 manojo',name:'Cilantro'},{qty:'3 cdas',name:'Aceite de oliva'},{qty:'1 cdita',name:'Comino'},{qty:'Al gusto',name:'Sal'}],
+   pasos:['Marina el pollo con aceite, comino, sal y pimienta 30 min.','Asa tomatillos, serranos, ajo y cebolla hasta tatemar bien.','Licúa los ingredientes tatemados con cilantro y sal.','Asa el pollo 20 min por lado a fuego medio.','Sirve bañado con la salsa verde recién licuada.'],
+   tip:'Tatema los ingredientes hasta que estén bien quemados. Da sabor ahumado único.'},
+  {id:'p8',emoji:'🥜',title:'Brochetas de pollo teriyaki',desc:'Brochetas en salsa teriyaki casera con sésamo.',time:'30 min + 1h',level:'Fácil',servings:'4 personas',
+   ingredientes:[{qty:'600 g',name:'Pechuga en cubos'},{qty:'¼ taza',name:'Salsa soya'},{qty:'3 cdas',name:'Miel de abeja'},{qty:'2 cdas',name:'Mirin o sake seco'},{qty:'1 cda',name:'Jengibre rallado'},{qty:'2 dientes',name:'Ajo rallado'},{qty:'1 cda',name:'Aceite de sésamo'},{qty:'Semillas',name:'Sésamo para decorar'}],
+   pasos:['Mezcla soya, miel, mirin, jengibre, ajo y aceite de sésamo.','Marina los cubos de pollo 1 hora.','Ensarta en brochetas remojadas en agua.','Asa a fuego medio 3-4 min por lado bañando con marinada.','Espolvorea semillas de sésamo y cebollín.'],
+   tip:'Remojar las brochetas de madera 30 min evita que se quemen.'},
+  {id:'p9',emoji:'🌽',title:'Pollo en mole negro asado',desc:'Muslos a la parrilla con mole negro casero espeso.',time:'1 h',level:'Avanzado',servings:'6 personas',
+   ingredientes:[{qty:'1.5 kg',name:'Muslos de pollo'},{qty:'100 g',name:'Chile mulato'},{qty:'50 g',name:'Chile ancho'},{qty:'50 g',name:'Chile pasilla'},{qty:'2 cdas',name:'Chocolate oscuro'},{qty:'2 cdas',name:'Ajonjolí tostado'},{qty:'1',name:'Tortilla tostada'},{qty:'3 dientes',name:'Ajo'},{qty:'¼',name:'Cebolla'},{qty:'Al gusto',name:'Canela, clavo, comino, sal'}],
+   pasos:['Deshidrata y tuesta los chiles. Remoja 30 min.','Fríe ajo, cebolla, ajonjolí, tortilla y especias. Licúa con los chiles.','Fríe la pasta en aceite hasta cambiar de color. Agrega caldo, cocina 30 min.','Incorpora el chocolate y sazona. Cocina 10 min más a fuego bajo.','Asa el pollo a fuego medio 20 min por lado.','Sirve bañado con el mole negro caliente.'],
+   tip:'El mole hecho el día anterior siempre estará mejor.'},
+  {id:'p10',emoji:'🫙',title:'Alitas de búfalo clásicas',desc:'Alitas crujientes con salsa de mantequilla y hot sauce.',time:'45 min',level:'Fácil',servings:'4 personas',
+   ingredientes:[{qty:'1.2 kg',name:'Alitas'},{qty:'5 cdas',name:'Mantequilla sin sal'},{qty:'½ taza',name:'Salsa picante (Frank\'s o Valentina)'},{qty:'1 cda',name:'Vinagre blanco'},{qty:'½ cdita',name:'Ajo en polvo'},{qty:'½ cdita',name:'Sal'}],
+   pasos:['Seca las alitas. Sazona con sal y ajo en polvo.','Asa a fuego medio-alto 15 min por lado hasta crujientes.','Derrite la mantequilla a fuego bajo con salsa picante y vinagre.','Pasa las alitas calientes por la salsa de búfalo.','Sirve con apio, zanahoria y aderezo ranch o blue cheese.'],
+   tip:'La salsa de búfalo se pone justo antes de servir para mantener el crujiente.'},
+],
+cerdo:[
+  {id:'c1',emoji:'🥓',title:'Costillas BBQ baby back',desc:'Baby back con dry rub y glaseado de naranja.',time:'3.5 h',level:'Avanzado',servings:'4 personas',
+   ingredientes:[{qty:'1 rack',name:'Costillas baby back'},{qty:'2 cdas',name:'Azúcar morena'},{qty:'1 cda',name:'Pimentón ahumado'},{qty:'1 cda',name:'Ajo en polvo'},{qty:'1 cda',name:'Cebolla en polvo'},{qty:'1 cdita',name:'Chile cayena'},{qty:'1 cdita',name:'Pimienta negra'},{qty:'1 cda',name:'Sal'},{qty:'1 taza',name:'Salsa BBQ'},{qty:'¼ taza',name:'Jugo de naranja'}],
+   pasos:['Retira la membrana jalando con papel de cocina.','Mezcla los ingredientes secos. Aplica generosamente por ambos lados.','Envuelve en papel aluminio. Refrigera al menos 1 hora.','Prepara parrilla para cocción indirecta a 150°C.','Cocina tapado 2.5 horas hasta que la carne se separe del hueso.','Mezcla BBQ con naranja. Unta y asa 15 min a fuego directo.'],
+   tip:'Método 3-2-1: 3h indirecto, 2h en papel, 1h con salsa.'},
+  {id:'c2',emoji:'🌮',title:'Chuletas al pastor',desc:'Chuletas de cerdo estilo al pastor con piña.',time:'30 min + 2h',level:'Fácil',servings:'4 personas',
+   ingredientes:[{qty:'4',name:'Chuletas de cerdo 2 cm'},{qty:'4',name:'Chiles guajillo'},{qty:'2',name:'Chiles ancho'},{qty:'¼',name:'Piña en rodajas'},{qty:'¼',name:'Cebolla'},{qty:'3 dientes',name:'Ajo'},{qty:'1 cdita',name:'Achiote en pasta'},{qty:'2 cdas',name:'Vinagre blanco'},{qty:'1 cdita',name:'Orégano'},{qty:'Al gusto',name:'Sal'}],
+   pasos:['Hidrata chiles. Licúa con ajo, cebolla, achiote, vinagre, orégano y sal.','Marina las chuletas 2 horas.','Calienta parrilla a fuego medio-alto.','Asa las chuletas 4-5 min por lado.','Asa las rodajas de piña 3-4 min por lado.','Sirve con piña asada encima y cilantro picado.'],
+   tip:'Las chuletas están listas a 63°C internos. Déjalas reposar 3 min.'},
+  {id:'c3',emoji:'🫀',title:'Longaniza y chorizo asado',desc:'Embutidos de cerdo dorados lentamente al carbón.',time:'25 min',level:'Fácil',servings:'6 personas',
+   ingredientes:[{qty:'500 g',name:'Longaniza fresca'},{qty:'500 g',name:'Chorizo fresco'},{qty:'1 cda',name:'Aceite vegetal'},{qty:'Opcional',name:'Limón y salsa verde'}],
+   pasos:['Pincha los embutidos ligeramente para que no revienten.','Pinta la parrilla con aceite. Fuego medio-bajo.','Coloca y gira cada 3-4 min.','Cocina 15-20 min hasta dorar bien.','Retira cuando estén firmes y caramelizados.','Sirve con tortillas calientes y limón.'],
+   tip:'Fuego bajo es clave. A fuego alto la piel revienta y pierden sus jugos.'},
+  {id:'c4',emoji:'🐷',title:'Cochinita pibil',desc:'Cerdo en hoja de plátano con achiote y naranja agria.',time:'4 h',level:'Avanzado',servings:'8 personas',
+   ingredientes:[{qty:'2 kg',name:'Pierna o paleta de cerdo'},{qty:'100 g',name:'Pasta de achiote'},{qty:'1 taza',name:'Jugo de naranja agria'},{qty:'8 dientes',name:'Ajo'},{qty:'1 cdita',name:'Comino'},{qty:'1 cdita',name:'Orégano'},{qty:'1 cdita',name:'Pimienta negra'},{qty:'½ cdita',name:'Canela'},{qty:'Al gusto',name:'Hoja de plátano, sal'}],
+   pasos:['Disuelve el achiote en naranja agria con ajo y especias. Licúa.','Haz cortes profundos en la carne y marina toda la noche.','Enrolla en hojas de plátano asadas brevemente.','Coloca en charola tapada a 160°C en zona indirecta.','Cocina 3-4 horas hasta que la carne se deshaga.','Deshebra y sirve con cebolla morada encurtida.'],
+   tip:'La naranja agria es insustituible. Si no hay, mezcla naranja dulce con limón a partes iguales.'},
+  {id:'c5',emoji:'🧅',title:'Lomo de cerdo relleno',desc:'Lomo relleno de espinaca, queso y nuez, asado entero.',time:'1 h',level:'Avanzado',servings:'6 personas',
+   ingredientes:[{qty:'1 kg',name:'Lomo de cerdo entero'},{qty:'100 g',name:'Espinaca baby'},{qty:'100 g',name:'Queso de cabra o manchego'},{qty:'50 g',name:'Nuez picada'},{qty:'5 cdas',name:'Aceite de oliva'},{qty:'4 dientes',name:'Ajo'},{qty:'1 cdita',name:'Romero'},{qty:'1 cdita',name:'Tomillo'},{qty:'Al gusto',name:'Sal y pimienta'}],
+   pasos:['Abre el lomo en libro haciendo cortes sin llegar al fondo.','Sazona el interior con sal, pimienta, ajo y hierbas.','Rellena con espinaca, queso y nuez. Cierra y amarra con hilo de cocina.','Sella a fuego directo alto 2 min por todos los lados.','Pasa a calor indirecto y cocina ~40 min hasta 63°C internos.','Reposa 10 min, retira hilo y rebana.'],
+   tip:'Amarrar bien el rollo es clave para que el relleno no se escape.'},
+  {id:'c6',emoji:'🌭',title:'Chorizo parrillero argentino',desc:'Chorizos frescos estilo argentino con chimichurri rojo.',time:'30 min',level:'Fácil',servings:'6 personas',
+   ingredientes:[{qty:'1 kg',name:'Chorizo argentino fresco'},{qty:'4 cdas',name:'Aceite de oliva'},{qty:'3 dientes',name:'Ajo picado'},{qty:'2 cdas',name:'Vinagre de vino tinto'},{qty:'1 cda',name:'Orégano'},{qty:'1 cda',name:'Pimentón dulce'},{qty:'1 cdita',name:'Chile rojo seco'},{qty:'2 cdas',name:'Perejil picado'}],
+   pasos:['Mezcla aceite, ajo, vinagre, orégano, pimentón, chile y perejil para el chimichurri rojo.','Deja reposar el chimichurri 30 min.','Pincha los chorizos ligeramente.','Asa a fuego medio girando frecuentemente 20-25 min.','Deben estar dorados y firmes, sin romperse.','Sirve en pan con el chimichurri.'],
+   tip:'El chimichurri rojo con pimentón es diferente al verde. Ambos son imprescindibles en parrilla argentina.'},
+  {id:'c7',emoji:'🫙',title:'Carnitas michoacanas',desc:'Cerdo frito en su propia grasa hasta caramelizar.',time:'2.5 h',level:'Medio',servings:'8 personas',
+   ingredientes:[{qty:'2 kg',name:'Espaldilla de cerdo con grasa'},{qty:'1 taza',name:'Leche'},{qty:'1',name:'Naranja (jugo y cáscara)'},{qty:'6 dientes',name:'Ajo'},{qty:'1',name:'Cebolla partida'},{qty:'2',name:'Hojas de laurel'},{qty:'1 cdita',name:'Orégano'},{qty:'1 cdita',name:'Comino'},{qty:'Al gusto',name:'Sal'}],
+   pasos:['Corta la carne en trozos grandes de ~5 cm.','En cazo grueso, coloca la carne con leche, naranja, ajo, cebolla, laurel y especias.','Cocina a fuego alto hasta hervir. Baja a fuego medio.','Cocina ~2 horas hasta que el líquido se consuma.','Sube el fuego y dora hasta caramelizar.','Saca, escurre y deshebra para tacos.'],
+   tip:'La leche y la naranja ablandan la carne y le dan sabor ligeramente dulce único.'},
+  {id:'c8',emoji:'🔥',title:'Pork belly crujiente',desc:'Panceta con piel crujiente al estilo chino de parrilla.',time:'3 h',level:'Avanzado',servings:'4 personas',
+   ingredientes:[{qty:'1 kg',name:'Panceta con piel (pork belly)'},{qty:'2 cdas',name:'Sal gruesa'},{qty:'1 cda',name:'Polvo de cinco especias'},{qty:'1 cdita',name:'Ajo en polvo'},{qty:'1 cdita',name:'Pimienta blanca'},{qty:'1 cda',name:'Vinagre de arroz'},{qty:'1 cda',name:'Salsa soya'}],
+   pasos:['Escalda la panceta en agua hirviendo 5 min. Seca perfectamente.','Pica la piel densamente con tenedor o palillo.','Frota el lado de la carne con especias, ajo, pimienta y soya. Sal solo en la piel.','Refrigera sin tapar 4 horas para que la piel se seque.','Asa en parrilla indirecta a 160°C por 2 horas con la piel hacia arriba.','Los últimos 15 min a fuego directo con la piel hacia abajo hasta que burbujee.'],
+   tip:'La piel seca es el secreto del crujiente. Cualquier humedad lo arruinará.'},
+  {id:'c9',emoji:'🌿',title:'Chuletas en salsa verde',desc:'Chuletas selladas y servidas con salsa verde espesa.',time:'35 min',level:'Fácil',servings:'4 personas',
+   ingredientes:[{qty:'4',name:'Chuletas de cerdo gruesas'},{qty:'8',name:'Tomatillos'},{qty:'3',name:'Chiles serranos'},{qty:'¼',name:'Cebolla'},{qty:'3 dientes',name:'Ajo'},{qty:'1 manojo',name:'Cilantro'},{qty:'2 cdas',name:'Aceite'},{qty:'Al gusto',name:'Sal'}],
+   pasos:['Asa tomatillos, serranos, cebolla y ajo en la parrilla o comal.','Licúa todo con cilantro y sal.','Sazona las chuletas con sal y pimienta.','Asa a fuego alto 4 min por lado.','Calienta la salsa verde. Sumerge las chuletas 5 min a fuego bajo.','Sirve con frijoles y arroz.'],
+   tip:'Sumergir las chuletas en la salsa las mantiene jugosas y les da sabor extra.'},
+  {id:'c10',emoji:'🐖',title:'Spareribs con cerveza oscura',desc:'Costillas de cadera ahumadas con cerveza oscura.',time:'4 h',level:'Avanzado',servings:'4 personas',
+   ingredientes:[{qty:'1 rack',name:'Spareribs de cerdo'},{qty:'1 lata',name:'Cerveza oscura (stout o porter)'},{qty:'2 cdas',name:'Azúcar morena'},{qty:'1 cda',name:'Sal'},{qty:'1 cda',name:'Pimentón'},{qty:'1 cdita',name:'Comino'},{qty:'1 cdita',name:'Ajo en polvo'},{qty:'½ cdita',name:'Chile cayena'},{qty:'1 taza',name:'Salsa BBQ'}],
+   pasos:['Retira la membrana. Aplica dry rub y refrigera 2 horas.','Prepara cocción indirecta a 130°C. Agrega cerveza en una bandeja bajo las costillas.','Cocina tapado 3 horas.','Sube el fuego a 180°C, unta BBQ y cocina 20 min más destapado.','Reposa 10 min antes de cortar entre los huesos.'],
+   tip:'Las spareribs son más carnosas que las baby back pero necesitan más tiempo.'},
+],
+guarni:[
+  {id:'g1',emoji:'🌽',title:'Elotes asados con crema',desc:'Elotes en totomoxtle con mantequilla, crema, queso y chile.',time:'35 min',level:'Fácil',servings:'6 personas',
+   ingredientes:[{qty:'6',name:'Elotes con hoja (totomoxtle)'},{qty:'100 g',name:'Mantequilla sin sal'},{qty:'1 taza',name:'Crema ácida'},{qty:'1 taza',name:'Queso cotija rallado'},{qty:'2 cdas',name:'Chile en polvo'},{qty:'3',name:'Limones'},{qty:'Opcional',name:'Mayonesa estilo mexicano'}],
+   pasos:['Remoja los elotes con hoja en agua 30 min.','Coloca directamente al carbón a fuego medio.','Cocina 20-25 min girando cada 5 min.','Pela las hojas y coloca en plato.','Unta mantequilla, luego crema, queso y chile.','Termina con limón y sirve inmediatamente.'],
+   tip:'El remojo es esencial para que las hojas no se quemen antes de que el elote se cueza.'},
+  {id:'g2',emoji:'🥑',title:'Guacamole tatemado',desc:'Aguacates y tomatillos a la parrilla para sabor ahumado.',time:'20 min',level:'Fácil',servings:'6 personas',
+   ingredientes:[{qty:'4',name:'Aguacates maduros'},{qty:'3',name:'Jitomates'},{qty:'2',name:'Chiles jalapeños'},{qty:'½',name:'Cebolla blanca'},{qty:'1 manojo',name:'Cilantro'},{qty:'2',name:'Limones'},{qty:'1 cdita',name:'Sal'}],
+   pasos:['Asa jitomates, jalapeños y cebolla en parrilla hasta tatemar bien.','Pela jitomates, desvena chiles al gusto. Pica con la cebolla.','Saca la pulpa de los aguacates a un tazón.','Machaca con textura. Incorpora el picado y cilantro.','Sazona con limón y sal.','Sirve inmediatamente o cubre con film pegado a la superficie.'],
+   tip:'El tatemado le da sabor único. No lo omitas.'},
+  {id:'g3',emoji:'🧅',title:'Cebollas cambray caramelizadas',desc:'Cebollas de cambray asadas hasta caramelizarse.',time:'25 min',level:'Fácil',servings:'6 personas',
+   ingredientes:[{qty:'2 manojos',name:'Cebolla de cambray con tallo'},{qty:'3 cdas',name:'Aceite de oliva'},{qty:'2 cdas',name:'Mantequilla'},{qty:'1 cda',name:'Salsa soya'},{qty:'1 cdita',name:'Azúcar'},{qty:'Al gusto',name:'Sal y pimienta'},{qty:'1',name:'Limón al final'}],
+   pasos:['Limpia las cebollas dejando parte del tallo verde.','Mezcla aceite, mantequilla, soya, azúcar, sal y pimienta.','Baña las cebollas con la mezcla.','Asa a fuego medio-alto girando 15-18 min hasta marcas doradas.','Chorrito de limón fresco antes de servir.'],
+   tip:'Están listas cuando puedes pincharlas sin resistencia.'},
+  {id:'g4',emoji:'🫑',title:'Chiles toreados y nopales',desc:'Cuaresmeños salteados y nopales asados con limón.',time:'20 min',level:'Fácil',servings:'6 personas',
+   ingredientes:[{qty:'6',name:'Chiles cuaresmeños o jalapeños'},{qty:'4',name:'Nopales medianos pelados'},{qty:'3 cdas',name:'Aceite vegetal'},{qty:'2 cdas',name:'Salsa soya'},{qty:'2',name:'Limones'},{qty:'Al gusto',name:'Sal gruesa'}],
+   pasos:['Limpia nopales. Córtalos en tiras.','Sazona con aceite y sal. Asa a fuego medio.','Asa 5-6 min por lado hasta marcas y tiernos.','Calienta aceite en sartén. Agrega chiles enteros.','Tórea los chiles calientes y agrega soya.','Sirve todo con limón y sal.'],
+   tip:'Los nopales sueltan líquido baboso al inicio: no los muevas mucho.'},
+  {id:'g5',emoji:'🫓',title:'Tortillas de harina a mano',desc:'Tortillas suaves y esponjosas para acompañar todo.',time:'45 min',level:'Medio',servings:'12 tortillas',
+   ingredientes:[{qty:'2 tazas',name:'Harina de trigo'},{qty:'1 cdita',name:'Sal'},{qty:'1 cdita',name:'Polvo para hornear'},{qty:'3 cdas',name:'Manteca vegetal'},{qty:'¾ taza',name:'Agua tibia'}],
+   pasos:['Mezcla harina, sal y polvo para hornear.','Incorpora la manteca frotando hasta textura arenosa.','Agrega agua poco a poco. Amasa hasta masa suave.','Forma 12 bolitas. Cubre y reposa 20 min.','Extiende con rodillo hasta ~2 mm.','Cuece en comal a fuego medio 45-60 seg por lado.'],
+   tip:'El reposo de 20 min es fundamental para que no encojan al extenderlas.'},
+  {id:'g6',emoji:'🫘',title:'Frijoles charros',desc:'Frijoles caldosos con tocino, chorizo y chiles asados.',time:'1 h',level:'Fácil',servings:'8 personas',
+   ingredientes:[{qty:'500 g',name:'Frijoles pintos cocidos'},{qty:'200 g',name:'Tocino en tiras'},{qty:'200 g',name:'Chorizo'},{qty:'3',name:'Jitomates'},{qty:'2',name:'Chiles jalapeños'},{qty:'¼',name:'Cebolla'},{qty:'4 dientes',name:'Ajo'},{qty:'1 manojo',name:'Cilantro'},{qty:'2 tazas',name:'Caldo de pollo'},{qty:'Al gusto',name:'Sal'}],
+   pasos:['Asa jitomates, jalapeños, cebolla y ajo en la parrilla hasta tatemar.','Dora el tocino y chorizo en una olla sobre la parrilla.','Pica los ingredientes asados y agrégalos a la olla.','Incorpora los frijoles y caldo. Cocina 20-30 min.','Ajusta sal y agrega cilantro al final.','Sirve calientes.'],
+   tip:'Tatema bien los jitomates y chiles. Dan el alma a los frijoles charros.'},
+  {id:'g7',emoji:'🧀',title:'Quesadillas de rajas',desc:'Quesadillas con queso Oaxaca y rajas de chile poblano.',time:'15 min',level:'Fácil',servings:'4 personas',
+   ingredientes:[{qty:'8',name:'Tortillas de maíz'},{qty:'300 g',name:'Queso Oaxaca deshebrado'},{qty:'2',name:'Chiles poblanos en rajas'},{qty:'1',name:'Cebolla en rajas'},{qty:'2 cdas',name:'Aceite'},{qty:'Al gusto',name:'Sal'}],
+   pasos:['Asa los chiles en la parrilla hasta quemar la piel. Mete en bolsa y suda 10 min.','Pela los chiles, desvena y corta en rajas.','Sofríe cebolla hasta transparente. Agrega rajas y sal.','Pon una tortilla en la parrilla a fuego bajo. Cubre con queso y rajas.','Coloca otra tortilla encima y presiona. Voltea cuando funda el queso.','Sirve inmediatamente.'],
+   tip:'El queso Oaxaca es el mejor para fundir. Manchego rallado es buena alternativa.'},
+  {id:'g8',emoji:'🥗',title:'Ensalada de nopal asado',desc:'Nopales asados en ensalada fresca con jitomate y queso.',time:'20 min',level:'Fácil',servings:'4 personas',
+   ingredientes:[{qty:'4',name:'Nopales medianos pelados'},{qty:'2',name:'Jitomates'},{qty:'½',name:'Cebolla morada'},{qty:'100 g',name:'Queso fresco'},{qty:'1 manojo',name:'Cilantro'},{qty:'3 cdas',name:'Aceite de oliva'},{qty:'2',name:'Limones'},{qty:'1 cdita',name:'Orégano'},{qty:'Al gusto',name:'Sal'}],
+   pasos:['Asa los nopales enteros en la parrilla 5-6 min por lado.','Deja enfriar y corta en cubos o tiras.','Pica jitomate y cebolla morada.','Mezcla nopales, jitomate, cebolla y cilantro.','Adoba con aceite, limón, orégano y sal.','Desmorona queso fresco por encima.'],
+   tip:'Los nopales asados tienen menos baba que los cocidos. Es la mejor forma de prepararlos.'},
+  {id:'g9',emoji:'🌶️',title:'Salsa roja tatemada',desc:'Salsa intensa de jitomate y chile tatemado al carbón.',time:'15 min',level:'Fácil',servings:'8 personas',
+   ingredientes:[{qty:'4',name:'Jitomates maduros'},{qty:'3',name:'Chiles de árbol secos'},{qty:'2',name:'Chiles guajillo'},{qty:'3 dientes',name:'Ajo'},{qty:'¼',name:'Cebolla'},{qty:'1 manojo',name:'Cilantro'},{qty:'Al gusto',name:'Sal'}],
+   pasos:['Asa en la parrilla: jitomates, chiles, ajo y cebolla.','Voltea hasta que estén bien tatemados.','Hidrata los chiles secos en agua caliente 10 min.','Licúa todo junto con cilantro y sal.','Prueba el picor y ajusta según gusto.','Sirve en molcajete o tazón de barro.'],
+   tip:'Mientras más tatemados los ingredientes, más sabrosa y ahumada la salsa.'},
+  {id:'g10',emoji:'🥔',title:'Papas al carbón cargadas',desc:'Papas envueltas en aluminio cocidas entre las brasas.',time:'50 min',level:'Fácil',servings:'4 personas',
+   ingredientes:[{qty:'4 grandes',name:'Papas blancas o Russet'},{qty:'4 cdas',name:'Mantequilla'},{qty:'1 taza',name:'Crema ácida'},{qty:'½ taza',name:'Queso cheddar rallado'},{qty:'4 tiras',name:'Tocino crujiente'},{qty:'2 cdas',name:'Cebollín picado'},{qty:'Al gusto',name:'Sal'}],
+   pasos:['Lava bien las papas. Pínchales por todos lados con tenedor.','Embadurna con mantequilla y sal. Envuelve en papel aluminio doble.','Coloca sobre brasas o en zona de calor indirecto.','Cocina 45-50 min girando a la mitad.','Abre el aluminio, corta en cruz y abre la papa.','Rellena con crema, queso, tocino y cebollín.'],
+   tip:'Las papas más grandes necesitan hasta 60 min. Palillo sin resistencia = lista.'},
+],
+};
+
+const checkedSteps={};
+function getChecked(id){if(!checkedSteps[id])checkedSteps[id]=new Set();return checkedSteps[id];}
+function toggleStep(rid,i){const s=getChecked(rid);s.has(i)?s.delete(i):s.add(i);updateProgressUI(rid);}
+function updateProgressUI(rid){
+  const all=Object.values(recipes).flat();
+  const r=all.find(x=>x.id===rid);if(!r)return;
+  const total=r.pasos.length,done=getChecked(rid).size;
+  const pct=Math.round((done/total)*100);const isDone=pct===100;
+  const pe=document.getElementById('pct-'+rid),be=document.getElementById('bar-'+rid),le=document.getElementById('lbl-'+rid);
+  if(pe){pe.className='prog-pct'+(isDone?' done':'');pe.innerHTML=isDone?pct+'% <span class="complete-pill">¡Listo! 🎉</span>':pct+'%';}
+  if(be){be.style.width=pct+'%';be.className='prog-bar'+(isDone?' done':'');}
+  if(le)le.textContent=done+' de '+total+' pasos completados';
+  r.pasos.forEach((_,i)=>{
+    const te=document.getElementById('st-'+rid+'-'+i),ce=document.getElementById('sc-'+rid+'-'+i);
+    if(te)te.className='step-txt'+(getChecked(rid).has(i)?' done':'');
+    if(ce)ce.className='step-chk'+(getChecked(rid).has(i)?' checked':'');
+  });
+  const cb=document.getElementById('cpb-'+rid);if(cb){cb.style.width=pct+'%';cb.className='card-prog-fill'+(isDone?' done':'');}
+  const cp=document.getElementById('cpp-'+rid);if(cp){cp.className='badge badge-pct'+(isDone?' done':'');cp.textContent=pct+'%';cp.style.display=pct>0?'':'none';}
+  const cat=Object.keys(recipes).find(k=>recipes[k].some(x=>x.id===rid));
+  updateHomeCatProgress(cat);
+}
+function getCatProgress(catId){
+  const list=recipes[catId];let t=0,d=0;
+  list.forEach(r=>{t+=r.pasos.length;d+=getChecked(r.id).size;});
+  return t>0?Math.round((d/t)*100):0;
+}
+function updateHomeCatProgress(catId){
+  const pct=getCatProgress(catId);const isDone=pct===100;
+  const bar=document.getElementById('hbar-'+catId),lbl=document.getElementById('hpct-'+catId);
+  if(bar){bar.style.width=pct+'%';bar.className='cat-prog-fill'+(isDone?' done':'');}
+  if(lbl)lbl.textContent=pct>0?(isDone?'¡Categoría completa! 🎉':pct+'% completado'):'';
+}
+function resetSteps(rid){checkedSteps[rid]=new Set();updateProgressUI(rid);}
+
+let currentCategory=null,selectedRecipe=null;
+function goHome(){currentCategory=null;selectedRecipe=null;render();}
+function selectCategory(id){currentCategory=id;selectedRecipe=null;render();}
+function selectRecipe(id){selectedRecipe=id;render();}
+function backToList(){selectedRecipe=null;render();}
+function handleBack(){
+  if(selectedRecipe)backToList();
+  else if(currentCategory)goHome();
+}
+
+function render(){
+  const main=document.getElementById('main');
+  const backBtn=document.getElementById('backBtn');
+  const headerTitle=document.getElementById('headerTitle');
+  const headerSub=document.getElementById('headerSub');
+
+  if(!currentCategory){
+    backBtn.style.display='none';
+    headerTitle.textContent='🔥 Carnita Asada';
+    headerSub.textContent='40 recetas para tu asada';
+    main.innerHTML=`
+      <div class="home-hero">
+        <div class="home-title">🔥 Carnita Asada 🔥</div>
+        <div class="home-sub">Selecciona una categoría para empezar</div>
+      </div>
+      <div class="cat-grid">
+        ${categories.map(c=>{
+          const pct=getCatProgress(c.id);const isDone=pct===100;
+          return`<div class="cat-card" onclick="selectCategory('${c.id}')">
+            <span class="cat-icon">${c.icon}</span>
+            <div class="cat-name">${c.label}</div>
+            <div class="cat-count">${recipes[c.id].length} recetas</div>
+            <div class="cat-prog-track">
+              <div class="cat-prog-fill${isDone?' done':''}" id="hbar-${c.id}" style="width:${pct}%"></div>
+            </div>
+            <div class="cat-prog-label" id="hpct-${c.id}">${pct>0?(isDone?'¡Categoría completa! 🎉':pct+'% completado'):''}</div>
+          </div>`;}).join('')}
+      </div>`;
+    return;
+  }
+
+  const cat=categories.find(c=>c.id===currentCategory);
+
+  if(!selectedRecipe){
+    backBtn.style.display='block';
+    headerTitle.textContent=cat.icon+' '+cat.label;
+    headerSub.textContent=recipes[currentCategory].length+' recetas';
+    const list=recipes[currentCategory];
+    main.innerHTML=`
+      <div class="cat-tabs">
+        ${categories.map(c=>`<button class="cat-tab ${c.id===currentCategory?'active':''}" onclick="selectCategory('${c.id}')">${c.icon} ${c.label}</button>`).join('')}
+      </div>
+      <div class="list-wrap">
+        <div class="recipe-grid">
+          ${list.map(r=>{
+            const total=r.pasos.length,done=getChecked(r.id).size,pct=Math.round((done/total)*100),isDone=pct===100;
+            return`<div class="recipe-card" onclick="selectRecipe('${r.id}')">
+              <div class="card-prog-bar"><div class="card-prog-fill${isDone?' done':''}" id="cpb-${r.id}" style="width:${pct}%"></div></div>
+              <span class="card-emoji">${r.emoji}</span>
+              <div class="card-title">${r.title}</div>
+              <div class="card-desc">${r.desc}</div>
+              <div class="card-meta">
+                <span class="badge badge-time">⏱ ${r.time}</span>
+                <span class="badge badge-level">${r.level}</span>
+                <span class="badge badge-pct${isDone?' done':''}" id="cpp-${r.id}" style="display:${pct>0?'':'none'}">${pct}%</span>
+              </div>
+            </div>`;}).join('')}
+        </div>
+      </div>`;
+    return;
+  }
+
+  const all=Object.values(recipes).flat();
+  const r=all.find(x=>x.id===selectedRecipe);
+  const total=r.pasos.length,done=getChecked(r.id).size,pct=Math.round((done/total)*100),isDone=pct===100;
+  backBtn.style.display='block';
+  headerTitle.textContent=r.title;
+  headerSub.textContent=cat.icon+' '+cat.label;
+  main.innerHTML=`
+    <div class="detail-wrap">
+      <div class="detail-card">
+        <div class="detail-hdr">
+          <span class="detail-emoji">${r.emoji}</span>
+          <div style="flex:1">
+            <div class="detail-title">${r.title}</div>
+            <div class="detail-sub">${r.desc}</div>
+            <div class="card-meta" style="margin-top:8px">
+              <span class="badge badge-time">⏱ ${r.time}</span>
+              <span class="badge badge-level">${r.level}</span>
+              <span class="badge" style="background:#D1FAE5;color:#065F46;font-size:10px">${r.servings}</span>
+            </div>
+          </div>
+        </div>
+        <div class="prog-wrap">
+          <div class="prog-hdr">
+            <span class="prog-lbl" id="lbl-${r.id}">${done} de ${total} pasos completados</span>
+            <div style="display:flex;align-items:center;gap:8px">
+              <button class="reset-btn" onclick="resetSteps('${r.id}')">Reiniciar</button>
+              <span class="prog-pct${isDone?' done':''}" id="pct-${r.id}">${isDone?pct+'% <span class=\'complete-pill\'>🎉</span>':pct+'%'}</span>
+            </div>
+          </div>
+          <div class="prog-track"><div class="prog-bar${isDone?' done':''}" id="bar-${r.id}" style="width:${pct}%"></div></div>
+        </div>
+        <div class="two-col">
+          <div>
+            <div class="section-lbl">Ingredientes</div>
+            <ul class="ingr-list">${r.ingredientes.map(i=>`<li><span class="ingr-qty">${i.qty}</span><span>${i.name}</span></li>`).join('')}</ul>
+          </div>
+          <div>
+            <div class="section-lbl">Preparación</div>
+            <ul class="steps-list">${r.pasos.map((p,i)=>`
+              <li class="step-item" onclick="toggleStep('${r.id}',${i})">
+                <div class="step-chk${getChecked(r.id).has(i)?' checked':''}" id="sc-${r.id}-${i}">
+                  <svg viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <span class="step-txt${getChecked(r.id).has(i)?' done':''}" id="st-${r.id}-${i}">${p}</span>
+              </li>`).join('')}
+            </ul>
+          </div>
+        </div>
+        <div class="tip-box"><span class="tip-lbl">Consejo del asador:</span> ${r.tip}</div>
+      </div>
+    </div>`;
+}
+
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+
+render();
+</script>
+</body>
+</html>
