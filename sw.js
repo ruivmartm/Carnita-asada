@@ -1,8 +1,8 @@
 const CACHE = 'carnita-asada-v1';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
+  '/Carnita-asada/',
+  '/Carnita-asada/index.html',
+  '/Carnita-asada/manifest.json',
   'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;500;600&display=swap'
 ];
 
